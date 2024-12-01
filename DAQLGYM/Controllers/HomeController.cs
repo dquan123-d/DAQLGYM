@@ -3,7 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
 namespace DAQLGYM.Controllers
-{
+{ 
+    /*xin chao*/
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
