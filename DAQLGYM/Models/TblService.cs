@@ -14,8 +14,4 @@ public partial class TblService
     public string? Describe { get; set; }
 
     public string? ImageServices { get; set; }
-
-    public virtual ICollection<TblComment> TblComments { get; set; } = new List<TblComment>();
-
-    public virtual ICollection<TblMemberService> TblMemberServices { get; set; } = new List<TblMemberService>();
 }

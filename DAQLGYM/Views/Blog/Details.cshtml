@@ -1,0 +1,131 @@
+﻿@model TblBlog
+@{
+    List<TblBlogComment> blogComments = ViewBag.blogComments;
+}
+<!-- Blog Details Hero Section Begin -->
+<section class="blog-details-hero set-bg" data-setbg="img/blog/details/details-hero.jpg">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 p-0 m-auto">
+                <div class="bh-text">
+                    <h3>@Model.Title</h3>
+                    <ul>
+                        <li>@Model.CreatedBy</li>
+                        <li>@Model.CreatedDate</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Blog Details Hero Section End -->
+<!-- Blog Details Section Begin -->
+<section class="blog-details-section spad">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 p-0 m-auto">
+                <div class="blog-details-text">
+                    <div class="blog-details-title">
+                        <p>
+                            @Model.Alias
+                        </p>
+                        <p>
+                            @Model.Detail
+                        </p>
+                        
+                    </div>
+                    <div class="blog-details-pic">
+                        <div class="blog-details-pic-item">
+                            <img src="@Model.Image" alt="">
+                        </div>
+                        
+                    </div>
+
+                        
+                    <div class="blog-details-tag-share">
+                        <div class="tags">
+                            <a href="#">@Model.SeoKeywords</a>
+                        </div>
+                        <div class="share">
+                            <span>Share</span>
+                            <a href="#"><i class="fa fa-facebook"></i> 82</a>
+                            <a href="#"><i class="fa fa-twitter"></i> 24</a>
+                            <a href="#"><i class="fa fa-envelope"></i> 08</a>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="comment-option">
+                                <h5 class="@blogComments">Comment</h5>
+                                @foreach (var item in blogComments)
+                                {
+                                    <div class="co-item">
+                                        <div class="co-widget">
+                                            <a href="#"><i class="fa fa-heart-o"></i></a>
+                                            <a href="#"><i class="fa fa-share-square-o"></i></a>
+                                        </div>
+                                        <div class="co-pic">
+                                            <img src="img/blog/details/comment-1.jpg" alt="">
+                                            <h5>@item.Name</h5>
+                                        </div>
+                                        <div class="co-text">
+                                            <p>
+                                                @item.Detail
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="co-item reply-comment">
+                                        <div class="co-widget">
+                                            <a href="#"><i class="fa fa-heart-o"></i></a>
+                                            <a href="#"><i class="fa fa-share-square-o"></i></a>
+                                        </div>
+                                        <div class="co-pic">
+                                            <img src="img/blog/details/comment-2.jpg" alt="">
+                                            <h5>Brandon Kelley</h5>
+                                        </div>
+                                        <div class="co-text">
+                                            <p>
+                                                Neque porro quisquam est, qui dolorem ipsum dolor sit amet, consectetur,
+                                                adipisci velit dolore.
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="co-item">
+                                        <div class="co-widget">
+                                            <a href="#"><i class="fa fa-heart-o"></i></a>
+                                            <a href="#"><i class="fa fa-share-square-o"></i></a>
+                                        </div>
+                                        <div class="co-pic">
+                                            <img src="img/blog/details/comment-3.jpg" alt="">
+                                            <h5>Brandon Kelley</h5>
+                                        </div>
+                                        <div class="co-text">
+                                            <p>
+                                                Neque porro quisquam est, qui dolorem ipsum dolor sit amet, consectetur,
+                                                adipisci velit dolore.
+                                            </p>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                        
+                        <div class="col-lg-6">
+                            <div class="leave-comment">
+                                <h5>Leave a comment</h5>
+                                <form action="#">
+                                    <input type="text" placeholder="Name">
+                                    <input type="text" placeholder="Email">
+                                    <input type="text" placeholder="Website">
+                                    <textarea placeholder="Comment"></textarea>
+                                    <button type="submit">Submit</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Blog Details Section End -->

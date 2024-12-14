@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace DAQLGYM.Models;
 
-public partial class TbMenu
+public partial class TblMenu
 {
     public int MenuId { get; set; }
 

@@ -19,11 +19,9 @@ public partial class TblSchedule
 
     public string? Describe { get; set; }
 
-    public int? MemberId { get; set; }
-
-    public virtual TblMember? Member { get; set; }
-
     public virtual TblRoom? Room { get; set; }
+
+    public virtual ICollection<TblClass> TblClasses { get; set; } = new List<TblClass>();
 
     public virtual TblTrainer? Trainer { get; set; }
 }

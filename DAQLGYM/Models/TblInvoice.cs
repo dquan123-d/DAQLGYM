@@ -7,8 +7,6 @@ public partial class TblInvoice
 {
     public int InvoiceId { get; set; }
 
-    public int? MemberId { get; set; }
-
     public DateOnly? InvoiceDate { get; set; }
 
     public DateOnly? DueDate { get; set; }
@@ -21,7 +19,7 @@ public partial class TblInvoice
 
     public string? Notes { get; set; }
 
-    public virtual TblMember? Member { get; set; }
+    public int? MemberPackageId { get; set; }
 
-    public virtual ICollection<TblInvoiceDetail> TblInvoiceDetails { get; set; } = new List<TblInvoiceDetail>();
+    public virtual TblMemberPackage? MemberPackage { get; set; }
 }
