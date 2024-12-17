@@ -1,0 +1,142 @@
+﻿@model List<TblBlog>
+@{
+    List<TblClass> classes = ViewBag.categori;
+    List<TblBlog> bloglasted = ViewBag.bloglasted;
+    TblBlog blognew = ViewBag.blognew;
+}
+<!-- Breadcrumb Section Begin -->
+<section class="breadcrumb-section set-bg" data-setbg="/assets/img/breadcrumb-bg.jpg">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <div class="breadcrumb-text">
+                    <h2>Our Blog</h2>
+                    <div class="bt-option">
+                        <a href="./index.html">Home</a>
+                        <a href="#">Pages</a>
+                        <span>Blog</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Breadcrumb Section End -->
+<!-- Blog Section Begin -->
+<section class="blog-section spad">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 p-0">
+                @foreach (var item in Model)
+                {
+                    string url = $"/blog/{item.Alias}-{item.BlogId}.html";
+                    <div class="blog-item">
+                        <div class="bi-pic">
+                            <img src="@item.Image" alt="">
+                        </div>
+                        <div class="bi-text">
+                            <h5>
+                                <a href="@url">
+                                    @item.Title
+                                </a>
+                            </h5>
+                            <ul>
+                                <li>Người tạo: @item.CreatedBy</li>
+                                <li>Ngày tạo: @item.CreatedDate.Value.ToString("hh:mm - dd/MM/yyyy")</li>
+                                <li>@item.TblBlogComments.Count() binh luan</li>
+                            </ul>
+                            <p>
+                                @item.Description
+                            </p>
+                        </div>
+                    </div>
+                }
+
+            </div>
+            <div class="col-lg-4 col-md-8 p-0">
+                <div class="sidebar-option">
+                    <div class="so-categories">
+                        <h5 class="title">Lớp</h5>
+                        <ul>
+                            @foreach (var item in classes)
+                            {
+                                <li><a href="#">@item.NameClass <span> @item.TblMemberPackages.Count() </span></a></li>
+                            }
+                        </ul>
+                    </div>
+                    <div class="so-latest">
+                        <h5 class="title">Blog mới</h5>
+                        @{
+                            string newblogurl = $"/blog/{blognew.Alias}-{blognew.BlogId}.html";
+                        }
+                        <div class="latest-large set-bg" data-setbg="@blognew.Image">
+                            <div class="ll-text">
+                                <h5><a href="@newblogurl">@blognew.Title</a></h5>
+                                <ul>
+                                    <li>@blognew.CreatedDate.Value.ToString("hh:mm - dd/MM/yyyy")</li>
+                                    <li>@blognew.TblBlogComments.Count() bình luận</li>
+                                </ul>
+                            </div>
+                        </div>
+                        @foreach (var item in bloglasted)
+                        {
+                            string url = $"/blog/{item.Alias}-{item.BlogId}.html";
+                            <div class="latest-item">
+                                <div class="li-pic">
+                                    @* <img src="@item.Image" alt=""> *@
+                                </div>
+                                <div class="li-text">
+                                    <h6><a href="@url">@item.Title</a></h6>
+                                    <span class="li-time">@item.CreatedDate.Value.ToString("hh:mm - dd/MM/yyyy")</span>
+                                </div>
+                            </div>
+                        }
+
+                    </div>
+                    <div class="so-tags">
+                        <h5 class="title">Popular tags</h5>
+                        <a href="#">Gyming</a>
+                        <a href="#">Body buidling</a>
+                        <a href="#">Yoga</a>
+                        <a href="#">Weightloss</a>
+                        <a href="#">Proffeponal</a>
+                        <a href="#">Streching</a>
+                        <a href="#">Cardio</a>
+                        <a href="#">Karate</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+<!-- Blog Section End -->
+<!-- Get In Touch Section Begin -->
+<div class="gettouch-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="gt-text">
+                    <i class="fa fa-map-marker"></i>
+                    <p>333 Middle Winchendon Rd, Rindge,<br /> NH 03461</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="gt-text">
+                    <i class="fa fa-mobile"></i>
+                    <ul>
+                        <li>125-711-811</li>
+                        <li>125-668-886</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="gt-text email">
+                    <i class="fa fa-envelope"></i>
+                    <p>Support.gymcenter@gmail.com</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Get In Touch Section End -->

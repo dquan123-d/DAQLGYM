@@ -19,7 +19,7 @@ public partial class TblTrainer
 
     public string? Bio { get; set; }
 
-    public virtual ICollection<TblBlog> TblBlogs { get; set; } = new List<TblBlog>();
+    public virtual ICollection<TblClass> TblClasses { get; set; } = new List<TblClass>();
 
     public virtual ICollection<TblSchedule> TblSchedules { get; set; } = new List<TblSchedule>();
 }

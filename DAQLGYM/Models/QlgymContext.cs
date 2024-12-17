@@ -15,25 +15,27 @@ public partial class QlgymContext : DbContext
     {
     }
 
-    public virtual DbSet<TbMenu> TbMenus { get; set; }
+    public virtual DbSet<TblAccount> TblAccounts { get; set; }
 
     public virtual DbSet<TblBlog> TblBlogs { get; set; }
 
-    public virtual DbSet<TblComment> TblComments { get; set; }
+    public virtual DbSet<TblBlogComment> TblBlogComments { get; set; }
+
+    public virtual DbSet<TblClass> TblClasses { get; set; }
+
+    public virtual DbSet<TblContact> TblContacts { get; set; }
 
     public virtual DbSet<TblEquipment> TblEquipments { get; set; }
 
     public virtual DbSet<TblInvoice> TblInvoices { get; set; }
 
-    public virtual DbSet<TblInvoiceDetail> TblInvoiceDetails { get; set; }
-
-    public virtual DbSet<TblMember> TblMembers { get; set; }
-
     public virtual DbSet<TblMemberPackage> TblMemberPackages { get; set; }
 
-    public virtual DbSet<TblMemberService> TblMemberServices { get; set; }
+    public virtual DbSet<TblMenu> TblMenus { get; set; }
 
     public virtual DbSet<TblPackage> TblPackages { get; set; }
+
+    public virtual DbSet<TblRole> TblRoles { get; set; }
 
     public virtual DbSet<TblRoom> TblRooms { get; set; }
 
@@ -43,74 +45,109 @@ public partial class QlgymContext : DbContext
 
     public virtual DbSet<TblTrainer> TblTrainers { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Data Source=DESKTOP-R4TO9PD;Initial Catalog=QLGYM;Integrated Security=True;Encrypt=True;Trust Server Certificate=True");
-
+    
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<TbMenu>(entity =>
+        modelBuilder.Entity<TblAccount>(entity =>
         {
-            entity
-                .HasNoKey()
-                .ToTable("tb_Menu");
+            entity.HasKey(e => e.AccountId);
 
-            entity.Property(e => e.Alias).HasMaxLength(150);
-            entity.Property(e => e.CreatedBy).HasMaxLength(150);
-            entity.Property(e => e.CreatedDate).HasColumnType("datetime");
-            entity.Property(e => e.Description).HasMaxLength(500);
-            entity.Property(e => e.MenuId).ValueGeneratedOnAdd();
-            entity.Property(e => e.ModifiedBy).HasMaxLength(150);
-            entity.Property(e => e.ModifiedDate).HasColumnType("datetime");
-            entity.Property(e => e.Title).HasMaxLength(150);
+            entity.ToTable("tblAccount");
+
+            entity.Property(e => e.Email).HasMaxLength(50);
+            entity.Property(e => e.FullName).HasMaxLength(50);
+            entity.Property(e => e.LastLogin)
+                .HasMaxLength(10)
+                .IsFixedLength();
+            entity.Property(e => e.Password).HasMaxLength(50);
+            entity.Property(e => e.Phone).HasMaxLength(50);
+            entity.Property(e => e.Username).HasMaxLength(50);
+
+            entity.HasOne(d => d.Role).WithMany(p => p.TblAccounts)
+                .HasForeignKey(d => d.RoleId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_tblAccount_tblRole");
         });
 
         modelBuilder.Entity<TblBlog>(entity =>
         {
-            entity.HasKey(e => e.BlogId).HasName("PK__tblBlog__FA0AA70D399F788C");
+            entity.HasKey(e => e.BlogId);
 
             entity.ToTable("tblBlog");
 
-            entity.Property(e => e.BlogId).HasColumnName("blogID");
-            entity.Property(e => e.Content)
-                .HasColumnType("text")
-                .HasColumnName("content");
-            entity.Property(e => e.ImageBlog)
-                .HasMaxLength(255)
-                .IsUnicode(false)
-                .HasColumnName("image_Blog");
-            entity.Property(e => e.Title)
-                .HasMaxLength(255)
-                .IsUnicode(false)
-                .HasColumnName("title");
-            entity.Property(e => e.TrainerId).HasColumnName("trainerID");
+            entity.Property(e => e.Alias).HasMaxLength(250);
+            entity.Property(e => e.CreatedBy).HasMaxLength(150);
+            entity.Property(e => e.CreatedDate).HasColumnType("datetime");
+            entity.Property(e => e.Description).HasMaxLength(4000);
+            entity.Property(e => e.Image).HasMaxLength(500);
+            entity.Property(e => e.ModifiedBy).HasMaxLength(150);
+            entity.Property(e => e.ModifiedDate).HasColumnType("datetime");
+            entity.Property(e => e.SeoDescription).HasMaxLength(500);
+            entity.Property(e => e.SeoKeywords).HasMaxLength(250);
+            entity.Property(e => e.SeoTitle).HasMaxLength(250);
+            entity.Property(e => e.Title).HasMaxLength(250);
 
-            entity.HasOne(d => d.Trainer).WithMany(p => p.TblBlogs)
-                .HasForeignKey(d => d.TrainerId)
-                .HasConstraintName("FK__tblBlog__trainer__05D8E0BE");
+            entity.HasOne(d => d.Account).WithMany(p => p.TblBlogs)
+                .HasForeignKey(d => d.AccountId)
+                .HasConstraintName("FK_tblBlog_tblAccount");
         });
 
-        modelBuilder.Entity<TblComment>(entity =>
+        modelBuilder.Entity<TblBlogComment>(entity =>
         {
-            entity.HasKey(e => e.CommentId).HasName("PK__tblComme__CDDE91BDB84304CB");
+            entity.HasKey(e => e.CommentId);
 
-            entity.ToTable("tblComments");
+            entity.ToTable("tblBlogComment");
 
-            entity.Property(e => e.CommentId).HasColumnName("commentID");
-            entity.Property(e => e.Comment)
+            entity.Property(e => e.CreatedDate).HasColumnType("datetime");
+            entity.Property(e => e.Detail).HasMaxLength(200);
+            entity.Property(e => e.Email).HasMaxLength(50);
+            entity.Property(e => e.Name).HasMaxLength(50);
+            entity.Property(e => e.Phone).HasMaxLength(50);
+
+            entity.HasOne(d => d.Blog).WithMany(p => p.TblBlogComments)
+                .HasForeignKey(d => d.BlogId)
+                .HasConstraintName("FK_tblBlogComment_tblBlog");
+        });
+
+        modelBuilder.Entity<TblClass>(entity =>
+        {
+            entity.HasKey(e => e.ClassId);
+
+            entity.ToTable("tblClass");
+
+            entity.Property(e => e.ClassId).HasColumnName("classID");
+            entity.Property(e => e.Description)
                 .HasColumnType("text")
-                .HasColumnName("comment");
-            entity.Property(e => e.MemberId).HasColumnName("memberID");
-            entity.Property(e => e.ReplyTo).HasColumnName("reply_to");
-            entity.Property(e => e.ServiceId).HasColumnName("serviceID");
+                .HasColumnName("description");
+            entity.Property(e => e.NameClass)
+                .HasMaxLength(100)
+                .IsUnicode(false)
+                .HasColumnName("name_class");
+            entity.Property(e => e.ScheduleId).HasColumnName("scheduleID");
+            entity.Property(e => e.TrainerId).HasColumnName("trainerID");
 
-            entity.HasOne(d => d.Member).WithMany(p => p.TblComments)
-                .HasForeignKey(d => d.MemberId)
-                .HasConstraintName("FK__tblCommen__membe__6754599E");
+            entity.HasOne(d => d.Schedule).WithMany(p => p.TblClasses)
+                .HasForeignKey(d => d.ScheduleId)
+                .HasConstraintName("FK_tblClass_tblSchedules");
 
-            entity.HasOne(d => d.Service).WithMany(p => p.TblComments)
-                .HasForeignKey(d => d.ServiceId)
-                .HasConstraintName("FK__tblCommen__servi__68487DD7");
+            entity.HasOne(d => d.Trainer).WithMany(p => p.TblClasses)
+                .HasForeignKey(d => d.TrainerId)
+                .HasConstraintName("FK_tblClass_tblTrainers");
+        });
+
+        modelBuilder.Entity<TblContact>(entity =>
+        {
+            entity.HasKey(e => e.ContactId);
+
+            entity.ToTable("tblContact");
+
+            entity.Property(e => e.CreatedBy).HasMaxLength(150);
+            entity.Property(e => e.CreatedDate).HasColumnType("datetime");
+            entity.Property(e => e.Email).HasMaxLength(150);
+            entity.Property(e => e.ModifiedBy).HasMaxLength(150);
+            entity.Property(e => e.ModifiedDate).HasColumnType("datetime");
+            entity.Property(e => e.Name).HasMaxLength(150);
+            entity.Property(e => e.Phone).HasMaxLength(50);
         });
 
         modelBuilder.Entity<TblEquipment>(entity =>
@@ -145,14 +182,14 @@ public partial class QlgymContext : DbContext
 
         modelBuilder.Entity<TblInvoice>(entity =>
         {
-            entity.HasKey(e => e.InvoiceId).HasName("PK__tblInvoi__1252410C0DB18582");
+            entity.HasKey(e => e.InvoiceId);
 
             entity.ToTable("tblInvoices");
 
             entity.Property(e => e.InvoiceId).HasColumnName("invoiceID");
             entity.Property(e => e.DueDate).HasColumnName("due_date");
             entity.Property(e => e.InvoiceDate).HasColumnName("invoice_date");
-            entity.Property(e => e.MemberId).HasColumnName("memberID");
+            entity.Property(e => e.MemberPackageId).HasColumnName("member_packageID");
             entity.Property(e => e.Notes)
                 .HasColumnType("text")
                 .HasColumnName("notes");
@@ -164,121 +201,59 @@ public partial class QlgymContext : DbContext
                 .HasColumnName("status_Invoices");
             entity.Property(e => e.TotalAmount).HasColumnName("total_amount");
 
-            entity.HasOne(d => d.Member).WithMany(p => p.TblInvoices)
-                .HasForeignKey(d => d.MemberId)
-                .HasConstraintName("FK__tblInvoic__membe__619B8048");
-        });
-
-        modelBuilder.Entity<TblInvoiceDetail>(entity =>
-        {
-            entity.HasKey(e => e.DetailId).HasName("PK__tblInvoi__830778398C71340B");
-
-            entity.ToTable("tblInvoiceDetails");
-
-            entity.Property(e => e.DetailId).HasColumnName("detailID");
-            entity.Property(e => e.InvoiceId).HasColumnName("invoiceID");
-            entity.Property(e => e.ItemName)
-                .HasMaxLength(255)
-                .IsUnicode(false)
-                .HasColumnName("item_name");
-            entity.Property(e => e.Quantity).HasColumnName("quantity");
-            entity.Property(e => e.TotalAmount).HasColumnName("total_amount");
-
-            entity.HasOne(d => d.Invoice).WithMany(p => p.TblInvoiceDetails)
-                .HasForeignKey(d => d.InvoiceId)
-                .HasConstraintName("FK__tblInvoic__invoi__6477ECF3");
-        });
-
-        modelBuilder.Entity<TblMember>(entity =>
-        {
-            entity.HasKey(e => e.MemberId).HasName("PK__tblMembe__7FD7CFF68AA309CC");
-
-            entity.ToTable("tblMembers");
-
-            entity.Property(e => e.MemberId).HasColumnName("memberID");
-            entity.Property(e => e.Address)
-                .HasMaxLength(255)
-                .HasColumnName("address");
-            entity.Property(e => e.BirthDate).HasColumnName("birth_date");
-            entity.Property(e => e.Email)
-                .HasMaxLength(255)
-                .HasColumnName("email");
-            entity.Property(e => e.FullName)
-                .HasMaxLength(255)
-                .HasColumnName("full_name");
-            entity.Property(e => e.Gender)
-                .HasMaxLength(1)
-                .HasColumnName("gender");
-            entity.Property(e => e.JoinDate).HasColumnName("join_date");
-            entity.Property(e => e.LastLogin)
-                .HasColumnType("datetime")
-                .HasColumnName("last_login");
-            entity.Property(e => e.Password)
-                .HasMaxLength(10)
-                .IsUnicode(false)
-                .IsFixedLength()
-                .HasColumnName("password");
-            entity.Property(e => e.PhoneNumber)
-                .HasMaxLength(20)
-                .HasColumnName("phone_number");
-            entity.Property(e => e.ProfileImage)
-                .HasMaxLength(255)
-                .HasColumnName("profile_image");
-            entity.Property(e => e.Role)
-                .HasMaxLength(255)
-                .HasColumnName("role");
-            entity.Property(e => e.Status).HasColumnName("status");
-            entity.Property(e => e.Username)
-                .HasMaxLength(20)
-                .IsUnicode(false)
-                .IsFixedLength()
-                .HasColumnName("username");
+            entity.HasOne(d => d.MemberPackage).WithMany(p => p.TblInvoices)
+                .HasForeignKey(d => d.MemberPackageId)
+                .HasConstraintName("FK_tblInvoices_tblMemberPackages");
         });
 
         modelBuilder.Entity<TblMemberPackage>(entity =>
         {
-            entity.HasKey(e => e.MemberPackageId).HasName("PK__tblMembe__8AD398804C418ABC");
+            entity.HasKey(e => e.MemberPackageId);
 
             entity.ToTable("tblMemberPackages");
 
             entity.Property(e => e.MemberPackageId).HasColumnName("member_packageID");
+            entity.Property(e => e.ClassId).HasColumnName("classID");
+            entity.Property(e => e.Email)
+                .HasMaxLength(255)
+                .IsUnicode(false)
+                .HasColumnName("email");
             entity.Property(e => e.EndDate).HasColumnName("end_date");
-            entity.Property(e => e.MemberId).HasColumnName("memberID");
+            entity.Property(e => e.IsActive).HasColumnName("is_active");
+            entity.Property(e => e.MemberName)
+                .HasMaxLength(255)
+                .IsUnicode(false)
+                .HasColumnName("member_name");
             entity.Property(e => e.PackageId).HasColumnName("packageID");
-            entity.Property(e => e.PurchaseDate).HasColumnName("purchase_date");
+            entity.Property(e => e.PhoneNumber)
+                .HasMaxLength(20)
+                .IsUnicode(false)
+                .HasColumnName("phone_number");
             entity.Property(e => e.StartDate).HasColumnName("start_date");
-            entity.Property(e => e.StatusMemberPackages).HasColumnName("status_MemberPackages");
 
-            entity.HasOne(d => d.Member).WithMany(p => p.TblMemberPackages)
-                .HasForeignKey(d => d.MemberId)
-                .HasConstraintName("FK__tblMember__membe__4F7CD00D");
+            entity.HasOne(d => d.Class).WithMany(p => p.TblMemberPackages)
+                .HasForeignKey(d => d.ClassId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_tblMemberPackages_tblClass");
 
             entity.HasOne(d => d.Package).WithMany(p => p.TblMemberPackages)
                 .HasForeignKey(d => d.PackageId)
-                .HasConstraintName("FK__tblMember__packa__5070F446");
+                .HasConstraintName("FK_tblMemberPackages_tblPackages");
         });
 
-        modelBuilder.Entity<TblMemberService>(entity =>
+        modelBuilder.Entity<TblMenu>(entity =>
         {
-            entity.HasKey(e => e.ServiceRegistrationId).HasName("PK__tblMembe__F3599FF69250E598");
+            entity.HasKey(e => e.MenuId);
 
-            entity.ToTable("tblMemberServices");
+            entity.ToTable("tblMenu");
 
-            entity.Property(e => e.ServiceRegistrationId).HasColumnName("service_registrationID");
-            entity.Property(e => e.MemberId).HasColumnName("memberID");
-            entity.Property(e => e.RegistrationDate).HasColumnName("Registration_date");
-            entity.Property(e => e.ServiceId).HasColumnName("serviceID");
-            entity.Property(e => e.StatusMemberServices)
-                .HasMaxLength(100)
-                .HasColumnName("status_MemberServices");
-
-            entity.HasOne(d => d.Member).WithMany(p => p.TblMemberServices)
-                .HasForeignKey(d => d.MemberId)
-                .HasConstraintName("FK__tblMember__membe__5AEE82B9");
-
-            entity.HasOne(d => d.Service).WithMany(p => p.TblMemberServices)
-                .HasForeignKey(d => d.ServiceId)
-                .HasConstraintName("FK__tblMember__servi__5BE2A6F2");
+            entity.Property(e => e.Alias).HasMaxLength(150);
+            entity.Property(e => e.CreatedBy).HasMaxLength(150);
+            entity.Property(e => e.CreatedDate).HasColumnType("datetime");
+            entity.Property(e => e.Description).HasMaxLength(500);
+            entity.Property(e => e.ModifiedBy).HasMaxLength(150);
+            entity.Property(e => e.ModifiedDate).HasColumnType("datetime");
+            entity.Property(e => e.Title).HasMaxLength(150);
         });
 
         modelBuilder.Entity<TblPackage>(entity =>
@@ -301,6 +276,16 @@ public partial class QlgymContext : DbContext
                 .IsUnicode(false)
                 .HasColumnName("package_name");
             entity.Property(e => e.Price).HasColumnName("price");
+        });
+
+        modelBuilder.Entity<TblRole>(entity =>
+        {
+            entity.HasKey(e => e.RoleId);
+
+            entity.ToTable("tblRole");
+
+            entity.Property(e => e.Description).HasMaxLength(50);
+            entity.Property(e => e.RoleName).HasMaxLength(50);
         });
 
         modelBuilder.Entity<TblRoom>(entity =>
@@ -334,14 +319,9 @@ public partial class QlgymContext : DbContext
                 .HasColumnType("text")
                 .HasColumnName("describe");
             entity.Property(e => e.EndTime).HasColumnName("end_time");
-            entity.Property(e => e.MemberId).HasColumnName("memberID");
             entity.Property(e => e.RoomId).HasColumnName("roomID");
             entity.Property(e => e.StartTime).HasColumnName("start_time");
             entity.Property(e => e.TrainerId).HasColumnName("trainerID");
-
-            entity.HasOne(d => d.Member).WithMany(p => p.TblSchedules)
-                .HasForeignKey(d => d.MemberId)
-                .HasConstraintName("FK_Schedule_Member");
 
             entity.HasOne(d => d.Room).WithMany(p => p.TblSchedules)
                 .HasForeignKey(d => d.RoomId)
