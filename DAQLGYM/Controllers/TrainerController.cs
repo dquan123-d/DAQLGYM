@@ -13,8 +13,8 @@ namespace DAQLGYM.Controllers
         }
         public IActionResult Index()
         {
-            //var trainer = _context.TblTrainer
-            return View();
+            var trainer = _context.TblTrainers.ToList();
+            return View(trainer);
         }
     }
 }

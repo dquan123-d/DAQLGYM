@@ -11,7 +11,7 @@ public partial class TblPackage
 
     public int? Duration { get; set; }
 
-    public int? Price { get; set; }
+    public string? Price { get; set; }
 
     public string? Describe { get; set; }
 

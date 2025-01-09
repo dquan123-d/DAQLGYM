@@ -361,9 +361,6 @@ public partial class QlgymContext : DbContext
             entity.ToTable("tblTrainers");
 
             entity.Property(e => e.TrainerId).HasColumnName("trainerID");
-            entity.Property(e => e.Bio)
-                .HasColumnType("text")
-                .HasColumnName("bio");
             entity.Property(e => e.ContactInfo)
                 .HasMaxLength(255)
                 .HasColumnName("contact_info");
@@ -375,9 +372,6 @@ public partial class QlgymContext : DbContext
                 .HasMaxLength(255)
                 .IsUnicode(false)
                 .HasColumnName("profile_image");
-            entity.Property(e => e.Specialization)
-                .HasMaxLength(255)
-                .HasColumnName("specialization");
         });
 
         OnModelCreatingPartial(modelBuilder);

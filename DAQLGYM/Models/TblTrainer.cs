@@ -9,7 +9,6 @@ public partial class TblTrainer
 
     public string? FullName { get; set; }
 
-    public string? Specialization { get; set; }
 
     public int? Experience { get; set; }
 
@@ -17,7 +16,6 @@ public partial class TblTrainer
 
     public string? ProfileImage { get; set; }
 
-    public string? Bio { get; set; }
 
     public virtual ICollection<TblClass> TblClasses { get; set; } = new List<TblClass>();
 

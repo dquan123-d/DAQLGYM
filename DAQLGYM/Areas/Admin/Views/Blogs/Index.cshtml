@@ -1,11 +1,9 @@
-﻿@model IEnumerable<DAQLGYM.Models.TblMenu>
+﻿@model IEnumerable<DAQLGYM.Models.TblBlog>
 
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
-
-<<<<<<< HEAD
 
 
 <body class="hold-transition sidebar-mini">
@@ -37,10 +35,10 @@
                         <div class="col-md-12">
                             <div class="card">
                                 <div class="card-header">
-                                    <h3 class="card-title">Quản lý menu</h3>
+                                    <h3 class="card-title">Quản lý bài viết</h3>
                                     <br />
                                     <p>
-                                        <a asp-action="Create">Thêm menu</a>
+                                        <a asp-action="Create">Thêm bài viết</a>
                                     </p>
                                 </div>
                                 <!-- /.card-header -->
@@ -49,24 +47,21 @@
                                         <thead>
                                             <tr>
                                                 <th>
-                                                    Menu
+                                                    Tiêu đề
                                                 </th>
                                                 <th>
-                                                    Bí danh
+                                                    Mô tả
+                                                </th>
+
+
+                                                <th>
+                                                    Ảnh
                                                 </th>
 
                                                 <th>
-                                                    Cấp độ
+                                                    Người đăng bài
                                                 </th>
-
-                                                <th>
-                                                    Vị trí
-                                                </th>
-
-                                                <th>
-                                                    Kích hoạt
-                                                </th>
-                                                <th></th>
+                                                <th class="col-3"></th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -79,20 +74,17 @@
                                                     <td>
                                                         @Html.DisplayFor(modelItem => item.Alias)
                                                     </td>
-                                                    <td>
-                                                        @Html.DisplayFor(modelItem => item.Levels)
-                                                    </td>
 
                                                     <td>
-                                                        @Html.DisplayFor(modelItem => item.Position)
+                                                        <img src="@Html.DisplayFor(modelItem => item.Image)" width="150" height="100" />
                                                     </td>
                                                     <td>
-                                                        @Html.DisplayFor(modelItem => item.IsActive)
+                                                        @Html.DisplayFor(modelItem => item.ModifiedBy)
                                                     </td>
                                                     <td>
-                                                        <a asp-action="Edit" class="btn btn-warning" asp-route-id="@item.MenuId">Chỉnh sửa</a> |
-                                                        <a asp-action="Details" class="btn btn-info" asp-route-id="@item.MenuId">Chi tiết</a> |
-                                                        <a asp-action="Delete" class="btn btn-danger" asp-route-id="@item.MenuId">Xóa</a>
+                                                        <a asp-action="Edit" class="btn btn-warning" asp-route-id="@item.BlogId">Chỉnh sửa</a> |
+                                                        <a asp-action="Details" class="btn btn-info" asp-route-id="@item.BlogId">Chi tiết</a> |
+                                                        <a asp-action="Delete" class="btn btn-danger" asp-route-id="@item.BlogId">Xóa</a>
                                                     </td>
                                                 </tr>
                                             }
@@ -125,4 +117,6 @@
         <!-- /.content-wrapper -->
     </div>
 </body>
+
+
 

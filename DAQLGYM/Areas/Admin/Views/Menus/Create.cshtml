@@ -1,126 +1,98 @@
-﻿@model IEnumerable<DAQLGYM.Models.TblMenu>
+﻿@model DAQLGYM.Models.TblMenu
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Create";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 
 
-
-<body class="hold-transition sidebar-mini">
-    <div class="wrapper">
-
-        <!-- Content Wrapper. Contains page content -->
-        <div class="content-wrapper">
-            <!-- Content Header (Page header) -->
-            <section class="content-header">
-                <div class="container-fluid">
-                    <div class="row mb-2">
-                        <div class="col-sm-12">
-                            <h1>Simple Tables</h1>
-                        </div>
-                        <div class="col-sm-12">
-                            <ol class="breadcrumb float-sm-right">
-                                <li class="breadcrumb-item"><a href="#">Home</a></li>
-                                <li class="breadcrumb-item active">Simple Tables</li>
-                            </ol>
-                        </div>
+<div class="wrapper">
+    <!-- Navbar -->
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1>General Form</h1>
                     </div>
-                </div><!-- /.container-fluid -->
-            </section>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="breadcrumb-item"><a href="#">Home</a></li>
+                            <li class="breadcrumb-item active">General Form</li>
+                        </ol>
+                    </div>
+                </div>
+            </div><!-- /.container-fluid -->
+        </section>
 
-            <!-- Main content -->
-            <section class="content">
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="card">
-                                <div class="card-header">
-                                    <h3 class="card-title">Quản lý menu</h3>
-                                    <br />
-                                    <p>
-                                        <a asp-action="Create">Thêm menu</a>
-                                    </p>
-                                </div>
-                                <!-- /.card-header -->
-                                <div class="card-body">
-                                    <table class="table table-bordered">
-                                        <thead>
-                                            <tr>
-                                                <th>
-                                                    Menu
-                                                </th>
-                                                <th>
-                                                    Bí danh
-                                                </th>
+        <!-- Main content -->
+        <section class="content">
+            <div class="container-fluid">
+                <div class="row">
 
-                                                <th>
-                                                    Cấp độ
-                                                </th>
-
-                                                <th>
-                                                    Vị trí
-                                                </th>
-
-                                                <th>
-                                                    Kích hoạt
-                                                </th>
-                                                <th></th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach (var item in Model)
-                                            {
-                                                <tr>
-                                                    <td>
-                                                        @Html.DisplayFor(modelItem => item.Title)
-                                                    </td>
-                                                    <td>
-                                                        @Html.DisplayFor(modelItem => item.Alias)
-                                                    </td>
-                                                    <td>
-                                                        @Html.DisplayFor(modelItem => item.Levels)
-                                                    </td>
-
-                                                    <td>
-                                                        @Html.DisplayFor(modelItem => item.Position)
-                                                    </td>
-                                                    <td>
-                                                        @Html.DisplayFor(modelItem => item.IsActive)
-                                                    </td>
-                                                    <td>
-                                                        <a asp-action="Edit" asp-route-id="@item.MenuId">Chỉnh sửa</a> |
-                                                        <a asp-action="Details" asp-route-id="@item.MenuId">Chi tiết</a> |
-                                                        <a asp-action="Delete" asp-route-id="@item.MenuId">Xóa</a>
-                                                    </td>
-                                                </tr>
-                                            }
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <!-- /.card-body -->
-                                <div class="card-footer clearfix">
-                                    <ul class="pagination pagination-sm m-0 float-right">
-                                        <li class="page-item"><a class="page-link" href="#">&laquo;</a></li>
-                                        <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                        <li class="page-item"><a class="page-link" href="#">&raquo;</a></li>
-                                    </ul>
-                                </div>
+                    <div class="col-md-12">
+                        <!-- general form elements -->
+                        <div class="card card-primary">
+                            <div class="card-header">
+                                <h3 class="card-title">Tạo menu</h3>
                             </div>
-                            <!-- /.card -->
-                            <!-- /.card -->
+                            <!-- /.card-header -->
+                            <!-- form start -->
+                            <form asp-action="Create" class="m-3">
+                                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                <div class="form-group">
+                                    <label asp-for="Title" class="control-label">Tiêu đề</label>
+                                    <input asp-for="Title" class="form-control" />
+                                    <span asp-validation-for="Title" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="Alias" class="control-label">Bí danh</label>
+                                    <input asp-for="Alias" class="form-control" />
+                                    <span asp-validation-for="Alias" class="text-danger"></span>
+                                </div>
+
+                                <div class="form-group">
+                                    <label asp-for="Levels" class="control-label">Cấp dộ</label>
+                                    <input asp-for="Levels" class="form-control" />
+                                    <span asp-validation-for="Levels" class="text-danger"></span>
+                                </div>
+
+                                <div class="form-group">
+                                    <label asp-for="Position" class="control-label">Vị trí</label>
+                                    <input asp-for="Position" class="form-control" />
+                                    <span asp-validation-for="Position" class="text-danger"></span>
+                                </div>
+
+                                <div class="form-group form-check">
+                                    <label class="form-check-label">
+                                        <input class="form-check-input" asp-for="IsActive" />
+                                        Kích hoạt
+                                    </label>
+                                </div>
+                                <div class="form-group">
+                                    <input type="submit" value="Create" class="btn btn-primary" />
+                                </div>
+                            </form>
+                            <div>
+                                <a asp-action="Index">Quay lại</a>
+                            </div>
                         </div>
-                        <!-- /.col -->
-                        <!-- /.col -->
+                        <!-- /.card -->
+
                     </div>
-                    <!-- /.row -->
-                    <!-- /.row -->
-                </div><!-- /.container-fluid -->
-            </section>
-            <!-- /.content -->
-        </div>
-        <!-- /.content-wrapper -->
+
+                </div>
+                <!-- /.row -->
+            </div><!-- /.container-fluid -->
+        </section>
+        <!-- /.content -->
     </div>
-</body>
+</div>
+<!-- /.content-wrapper -->
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
