@@ -1,4 +1,5 @@
-﻿    <!-- Breadcrumb Section Begin -->
+﻿@model TblContact  
+  <!-- Breadcrumb Section Begin -->
 <section class="breadcrumb-section set-bg" data-setbg="/assets/img/breadcrumb-bg.jpg">
     <div class="container">
         <div class="row">
@@ -45,12 +46,12 @@
             </div>
             <div class="col-lg-6">
                 <div class="leave-comment">
-                    <form action="#">
-                        <input type="text" placeholder="Name">
-                        <input type="text" placeholder="Email">
-                        <input type="text" placeholder="Website">
-                        <textarea placeholder="Comment"></textarea>
-                        <button type="submit">Submit</button>
+                    <form asp-action="Index" asp-controller="Contact">
+                        <input asp-for="Name" type="text" placeholder="Tên">
+                        <input asp-for="Phone" type="text" placeholder="Số điện thoại">
+                        <input asp-for="Email" type="text" placeholder="Email">
+                        <textarea asp-for="Message" type="text" placeholder="Nội dung"></textarea>
+                        <button type="submit">Gửi</button>
                     </form>
                 </div>
             </div>
